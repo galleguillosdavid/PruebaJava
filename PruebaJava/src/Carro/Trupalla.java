@@ -6,16 +6,19 @@ import java.util.Random;
 public class Trupalla extends Carro {
 	char[] posicionX;
 	char[] posicionY;
-	int x,y;
+	int x, y;
 	Random random = new Random();
-	int armadura= random.nextInt(5);
-	String persona="";
+	int armadura = random.nextInt(5);
+	String persona = "";
+
 	public Trupalla(int cantidadocupantes, String fecha, char[] posicionX, char[] posicionY) {
 		super(cantidadocupantes, fecha, posicionX, posicionY);
 	}
-public Trupalla(int x, int y) {
-	super(x,y);
-}
+
+	public Trupalla(int x, int y) {
+		super(x, y);
+	}
+
 	public Trupalla(int cantidadocupantes, String fecha, char[] posicionX, char[] posicionY, char[] posicionX2,
 			char[] posicionY2, int armadura, String persona) {
 		super(cantidadocupantes, fecha, posicionX, posicionY);

@@ -1,242 +1,276 @@
 package tablero.main;
+
 import Carro.*;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
-public class Tablero extends JFrame{
+public class Tablero extends JFrame {
 	// Creacion de atributos Carros
-	 
-	   private final static long serialVersionUID = (long) 1.1;
-	   private JPanel jPanel1 = new JPanel();
-	   private JButton jButton1 = new JButton();
-	   private JButton jButton2 = new JButton();
-	   private JButton jButton3 = new JButton();
-	   private String mensaje = "";
-	   private int total = 0;
-	   private int filas = 17;
-	   private int columnas = 17;
-	   private int pacoT = 10;
-	   private int zorrilloC = 5;
-	   private int kromiK = 3;
-	   private int contadorJuego = 1;
-	   
-	// listas
-	ArrayList<Carro> listaCarros = new ArrayList<Carro>(18);
-	ArrayList<Huevo> listaLanzaHuevo = new ArrayList<Huevo>();
-	
-	//tablero
-	public JButton metroCuadrado[][] = new JButton[filas][columnas];
-	public String[][] mensajeClik = new String[filas][columnas]; //tablero por defecto
 
+	private final static long serialVersionUID = (long) 1.7;
+	private JPanel jPanel1 = new JPanel();
+	private JButton boton1 = new JButton();
+	private JButton boton2 = new JButton();
+	private JButton boton3 = new JButton();
+	private JButton boton4 = new JButton();
+	private JButton boton5 = new JButton();
+	private JButton boton6 = new JButton();
+	private JButton boton7 = new JButton();
+	private String mensaje = "";
+	private int total = 0;
+	private int filas = 17;
+	private int columnas = 17;
+	private int trupallaT = 10;
+	private int guanacoC = 5;
+	private int MicroK = 3;
+	private int instalartrupallasT = 0;
+	private int instalarguanacoC = 0;
+	private int instalarMicroK = 0;
+	private int contadorJuego = 2;
+	private int contadorhuevo = 0;
+	private int contadorguanacoC = 0;
+	private int contadorpatrullasT = 0;
+	private int contadorMicroK = 0;
+	private int activerecurso = 0;
+	ArrayList<Carro> listaCarros = new ArrayList<Carro>(18);// listas
+	ArrayList<Huevo> listaLanzaHuevo = new ArrayList<Huevo>();// listas
+	public JButton metroCuadrado[][] = new JButton[filas][columnas];// tablero
+	public String[][] mensajeClik = new String[filas][columnas]; // tablero por defecto
 
-	public Tablero() { //constructor vacio
+	public Tablero() { // Agarra excepciones y las muestra
 		try {
-		MostrarMatriz();
-		
-		} catch (Exception e) {
-		e.printStackTrace();
-		}
-		}
+			MostrarMatriz();
 
-	//public void CrearCarro() {
-		
-		//lista de carros creados
-		
-		//instalarCromiK();
-		//instalarPacoT();
-		//instalarZorrilloC();
-		//getListaCarros();
-	//}
+		} catch (Exception e) {
+			// JOptionPane.showConfirmDialog(null, message)
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		Tablero tablero = new Tablero();
-		}
+	}
 
 	// Suma y mensajes variados
 
-	public void showTextTop(int i, int z) { // mensaje superior del jpanel
-	metroCuadrado[i][z].setText(mensajeClik[i][z]);
-	metroCuadrado[i][z].setEnabled(false);
+	public void mensajeSuperior(int i, int z) { 
+		metroCuadrado[i][z].setText(mensajeClik[i][z]);
+		metroCuadrado[i][z].setEnabled(false);
 
-	if (mensajeClik[i][z] == "") { //falla intento
-	metroCuadrado[i][z].setEnabled(false);
-	mensaje = "casi intentalo denuevo";
-	} else {
+		if (mensajeClik[i][z] == "H") { // falla intento
+			metroCuadrado[i][z].setEnabled(false);
+			mensaje = "Casi. Intentalo denuevo";
+			this.setTitle(mensaje + " Total " + total + " Puntos");
+		} else {
 
-	if (metroCuadrado[i][z].getText() == "T") { //le da a trupalla
-	total = total + 1; //suma puntaje
-	mensaje = "Trupalla derrotada, ¡Sigue asi!"; //mensaje en titulo
-	jButton2.setText("1 Punto");
-	this.setTitle(mensaje + " Total " + total + " Puntos");
-	}
-	if (metroCuadrado[i][z].getText() == "C") { // le da a caguano
-	total = total + 2; // puntaje
-	mensaje = "Una parte de un Caguano, ¡Sigue asi!"; // mensaje
-	jButton2.setText("2 Puntos");
-	this.setTitle(mensaje + " Total " + total + " Puntos");
-	if (metroCuadrado[i + 1][z].getText() == "C" || metroCuadrado[i - 1][z].getText() == "C") {
-	mensaje = "Caguano derrotado 2 puntos, mas 7 extra.";
-	total = total + 7;
-	jButton2.setText("7 Puntos");
-	this.setTitle(mensaje + " Total " + total + " Puntos");
-	}
-	}
+			if (metroCuadrado[i][z].getText() == "T") { // le da a trupalla
+				total = total + 1; // suma puntaje
+				mensaje = "Trupalla derrotada, ¡Sigue asi!"; // mensaje en titulo
+				boton2.setText("1 Punto");
+				this.setTitle(mensaje + " Total " + total + " Puntos");
+				contadorpatrullasT++;
+				
+			}
+			if (metroCuadrado[i][z].getText() == "C") { // le da a caguano
+				total = total + 2; // puntaje
+				mensaje = "Una parte de un Caguano, ¡Sigue asi!"; // mensaje
+				boton2.setText("2 Puntos");
+				this.setTitle(mensaje + " Total " + total + " Puntos");
+				
+				if (metroCuadrado[i + 1][z].getText() == "C" || metroCuadrado[i - 1][z].getText() == "C") {
+					mensaje = "Caguano derrotado 2 puntos, mas 7 extra.";
+					total = total + 7;
+					boton2.setText("7 Puntos");
+					this.setTitle(mensaje + " Total " + total + " Puntos");
+					contadorguanacoC++;
+					
+				}
+			}
 
-	if (metroCuadrado[i][z].getText() == "K") { // le da a kromi
-	mensaje = "Una parte de una Kromi, ¡Sigue asi!";
-	total = total + 3;
-	jButton2.setText("3 Puntos");
-	this.setTitle(mensaje + " Total " + total + " Puntos");
-	if (metroCuadrado[i][z + 2].getText() == "K" || metroCuadrado[i][z - 2].getText() == "K") {
-	mensaje = "Kromi derrotada 3 puntos, mas 10 extra.";
-	total = total + 10;
-	jButton2.setText("10 Puntos");
-	this.setTitle(mensaje + " Total " + total + " Puntos");
-	}
-	}
+			if (metroCuadrado[i][z].getText() == "K") { // le da a kromi
+				mensaje = "Una parte de una Kromi, ¡Sigue asi!";
+				total = total + 3;
+				boton2.setText("3 Puntos");
+				this.setTitle(mensaje + " Total " + total + " Puntos");
+					if (metroCuadrado[i][z + 2].getText() == "K" || metroCuadrado[i][z - 2].getText() == "K") {
+					mensaje = "Kromi derrotada 3 puntos, mas 10 extra.";
+					total = total + 10;
+					boton2.setText("10 Puntos");
+					this.setTitle(mensaje + " Total " + total + " Puntos");
+					contadorMicroK++;
+					
+				}
+			}
 
-	if (total > 93) {
-	finalGame();
-	}
-	}
+			if ( contadorMicroK > 2 && contadorguanacoC > 4  && contadorpatrullasT > 9 ) {
+				finalGame();
+			}
+		}
 	}
 
 	// Fin ganar
 	public void finalGame() {
-	this.setTitle("Eres nombrado ''Awake Emerito'' ");
-	jButton1.setText("Abatiste a los malhechores , Felicitaciones");
+		if ( contadorMicroK > 2 && contadorguanacoC > 4  && contadorpatrullasT > 9 ) {
+		this.setTitle("Eres nombrado ''Awake Emerito'' ");
+		boton1.setText("Abatiste a los malhechores , Felicitaciones");
 	}
-	
+	}
+
 	public void LanzarHuevo() {
 
-		}
-		
-	private void MostrarMatriz() throws Exception { // inicio del panel 
+	}
+
+	private void MostrarMatriz() throws Exception { // inicio del panel
 
 		this.getContentPane().setLayout(null); // traemos y seteamos el panel
-		this.setSize(new Dimension(526, 579)); //tamanio
+		this.setSize(new Dimension(696, 579)); // tamanio
 		this.setTitle("Angry Eggs"); // titulo del juego
 
 		jPanel1.setBounds(new Rectangle(0, 0, 527, 580)); // bordes
 		jPanel1.setLayout(null); // sin layout
-//configuracion boton 1
-		jButton1.setText("Reinicio"); 
-		jButton1.setBounds(new Rectangle(00, 510, 170, 30));
-		jButton1.setFont(new Font("Tahoma", 0, 12));
-		jButton1.setHorizontalTextPosition(SwingConstants.CENTER);
-//configuracion boton 2
-		jButton2.setText("Total");
-		jButton2.setBounds(new Rectangle(170, 510, 170, 30));
-		jButton2.setFont(new Font("Tahoma", 0, 12));
-		jButton2.setHorizontalTextPosition(SwingConstants.CENTER);
-//configuracion boton 3
-		jButton3.setText("Rendirse");
-		jButton3.setBounds(new Rectangle(340, 510, 170, 30));
-		jButton3.setFont(new Font("Tahoma", 0, 12));
-		jButton3.setHorizontalTextPosition(SwingConstants.CENTER);
-//lector de acciones boton1 
-		jButton1.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		jButton1_actionPerformed(e);
-		}
+		
+		//configuracion boton 1
+		boton1.setText("Reinicio");
+		boton1.setBounds(new Rectangle(00, 510, 170, 30));
+		boton1.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 2
+		boton2.setText("Total");
+		boton2.setBounds(new Rectangle(170, 510, 170, 30));
+		boton2.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 3
+		boton3.setText("Rendirse");
+		boton3.setBounds(new Rectangle(340, 510, 170, 30));
+		boton3.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 4
+		boton4.setText("Huevos");
+		boton4.setBounds(new Rectangle(510, 0, 170, 170));
+		boton4.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 5
+		boton5.setText("Carros");
+		boton5.setBounds(new Rectangle(510, 170, 170, 170));
+		boton5.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 6
+		boton6.setText("Caguanos");
+		boton6.setBounds(new Rectangle(510, 340, 170, 170));
+		boton6.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// configuracion boton 7
+		boton7.setText("Acerda de");
+		boton7.setBounds(new Rectangle(510, 510, 170, 30));
+		boton7.setHorizontalTextPosition(SwingConstants.CENTER);
+
+		// lector de acciones boton1
+		boton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boton1_actionPerformed(e);
+			}
 		});
 //lector de acciones boton2
-		jButton2.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent f) {
-		jButton2_actionPerformed(f);
-		}
+		boton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent f) {
+				boton2_actionPerformed(f);
+			}
 		});
 //lector de acciones boton3
-		jButton3.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent g) {
-		jButton3_actionPerformed(g);
-		}
+		boton3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent g) {
+				boton3_actionPerformed(g);
+			}
 		});
-//agregamos los botones al panel
-		getContentPane().add(jButton1, null);
-		getContentPane().add(jButton2, null);
-		getContentPane().add(jButton3, null);
+//agregamos los botones y carros al panel
+		getContentPane().add(boton1, null);
+		getContentPane().add(boton2, null);
+		getContentPane().add(boton3, null);
+		getContentPane().add(boton4, null);
+		getContentPane().add(boton5, null);
+		getContentPane().add(boton6, null);
+		getContentPane().add(boton7, null);
 		getContentPane().add(jPanel1, null);
-//cargamos el tablero y lo hacemos visible
 		cargarTablero();
-		instalarPacoT();
+		instalartrupallaT();
 		instalarCromiK();
-		instalarZorrilloC();
+		instalarguanacoC();
 		setVisible(true);
+		cordenadametroCuadrado(); 
+	}
 
-// —- Los contornos no participan en el juego.
-		cordenadametroCuadrado(); // le asigna numeros a los bordes para posiciones
-		}
-//respuesta al apretar boton1 = inicio Juego
-		private void jButton1_actionPerformed(ActionEvent e) {
+//respuesta al apretar boton1 = reinicio Juego
+	private void boton1_actionPerformed(ActionEvent e) {
 		for (int i = 1; i < filas - 1; i++) {
-		for (int z = 1; z < columnas - 1; z++) {
-		mensajeClik[i][z] = ""; //setea por defecto la casilla vacia
-		metroCuadrado[i][z].setEnabled(true);
-		metroCuadrado[i][z].setText("");
+			for (int z = 1; z < columnas - 1; z++) {
+				mensajeClik[i][z] = "H"; // setea por defecto la casilla con H
+				metroCuadrado[i][z].setEnabled(true);
+				metroCuadrado[i][z].setText("");
+			}
 		}
-		}
-		instalarPacoT();
-		instalarZorrilloC();
+		instalartrupallaT();
+		instalarguanacoC();
 		instalarCromiK();
 		this.setTitle("Angry Eggs");
-		contadorJuego = contadorJuego + 1;
-		jButton1.setText("Batalla " + contadorJuego);
+		boton1.setText("Batalla " + (contadorJuego++));
 		this.setTitle("... A la carga!!!");
-		}
+		activerecurso = 1;
+	}
+
 //respuesta al apretar boton2
-		private void jButton2_actionPerformed(ActionEvent f) {
-		}
+	private void boton2_actionPerformed(ActionEvent f) {
+	}
+
 //respuesta al apretar boton3
-		private void jButton3_actionPerformed(ActionEvent g) {
+	private void boton3_actionPerformed(ActionEvent g) {
 		for (int i = 1; i < filas - 1; i++) {
-		for (int z = 1; z < columnas - 1; z++) {
-		textometroCuadrado();
-		}
+			for (int z = 1; z < columnas - 1; z++) {
+				textometroCuadrado();
+			}
 		}
 		total = 0;
-		jButton2.setText(" " + total + " Puntos");
-
+		boton2.setText(" " + total + " Puntos");
 		this.setTitle("Si te caes 1 vez, te levantas 2 !!!");
-		}
-	public void cargarTablero() { // creamos tablero
-			for (int i = 0; i < filas; i++) {
-			for (int z = 0; z < columnas; z++) {
-			mensajeClik[i][z] = "H";
-			metroCuadrado[i][z] = new JButton();
-			jPanel1.add(metroCuadrado[i][z]);
-			metroCuadrado[i][z].setBounds(i * 30, z * 30, 30, 30);
-			metroCuadrado[i][z].setMargin(new Insets(0, 0, 0, 0));
-			metroCuadrado[i][z].setFont(new Font("Tahoma", 0, 13));
-
-			// escuchar click
-
-			metroCuadrado[i][z].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent escucharClik) {
-			for (int i = 1; i < filas - 1; i++) {
-			for (int z = 1; z < columnas - 1; z++) {
-			if (escucharClik.getSource() == metroCuadrado[i][z]) {
-			showTextTop(i, z);
-
-			// —– Cada Evento llama al método pulsarBoton.
-			}
-			}
-			}
-			}
-			});
-
-			}
-			}
-			}
+	}
 	
+	// creamos los 289 de botones de 30 por 20px, en 17 filas x 17columnas
+	public void cargarTablero() { 
+		for (int i = 0; i < filas; i++) {
+			for (int z = 0; z < columnas; z++) {
+				mensajeClik[i][z] = "H";
+				metroCuadrado[i][z] = new JButton();
+				jPanel1.add(metroCuadrado[i][z]);
+				metroCuadrado[i][z].setBounds(i * 30, z * 30, 30, 30);// los botones se desplazan al crearse
+				metroCuadrado[i][z].setMargin(new Insets(0, 0, 0, 0));
+
+				// escuchar click, solo en los botones interiores de 15 por 15
+				metroCuadrado[i][z].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent escucharClik) {
+						for (int i = 1; i < filas - 1; i++) {
+							for (int z = 1; z < columnas - 1; z++) {
+								if (escucharClik.getSource() == metroCuadrado[i][z]) {
+									mensajeSuperior(i, z);
+									contadorhuevo++;
+									boton4.setText("<html><center> TOTAL PUNTOS: <br><html>" + total + "<html><center><br>< Huevos lanzados:<br> <html>" + contadorhuevo );
+									boton5.setText(
+											"<html><center>CARROS DESTRUIDOS <br> Trupallas derrotadas: <br><html>" + contadorpatrullasT +
+											"<html><center><br> Caguanos derrotados: <br><html>" +  contadorguanacoC +
+											"<html><center><br> Kromis derrotadas: <br><html>" +  contadorMicroK );
+
+									
+
+									// —– Cada Evento llama al método pulsarBoton.
+								}
+							}
+						}
+					}
+				});
+			}
+		}
+	}
+
 	public int getFilas() {
 		return filas;
 	}
@@ -268,162 +302,162 @@ public class Tablero extends JFrame{
 	public void setListaLanzaHuevo(ArrayList<Huevo> listaLanzaHuevo) {
 		this.listaLanzaHuevo = listaLanzaHuevo;
 	}
-	// —- Coloca el numero de bombas dependiendo el filas.
+	// —- Coloca los carros al azar desde su clase principal.
 
-	public void instalarPacoT() {
-	double I = 0;
-	double Z = 0;
-	int contadorpacosT = 0;
-	do {
-	I = Math.random() * getfilas();
-	Z = Math.random() * getcolumnas();
-	int i = (int) I;
-	int z = (int) Z;
-	Trupalla trupalla = new Trupalla(i,z);
-	listaCarros.add(trupalla);
-	{
-	if (mensajeClik[i][z] != ("T") && i > 0 && i < 16 && z > 0 && z < 16) {
-	mensajeClik[i][z] = ("T");
-	contadorpacosT++;
-	}
-	}
-	} while (contadorpacosT < getPacoT());
-	}
-
-	public void setPacoT(int sPacoT) {
-	pacoT = sPacoT;
+	public void instalartrupallaT() {
+		double I = 0;
+		double Z = 0;
+		do {
+			I = Math.random() * getfilas();
+			Z = Math.random() * getcolumnas();
+			int i = (int) I;
+			int z = (int) Z;
+			
+			{
+				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
+						&& i < 16 && z > 0 && z < 16) {
+					mensajeClik[i][z] = ("T");
+					instalartrupallasT++;
+					Trupalla trupalla = new Trupalla(i, z);
+					listaCarros.add(trupalla);
+				}
+			}
+		} while (instalartrupallasT < gettrupallaT());
 	}
 
-	public int getPacoT() {
-	return pacoT;
+	public void settrupallaT(int trupallaT) {
+		trupallaT = trupallaT;
 	}
 
-	public void instalarZorrilloC() {
-	double I = 0;
-	double Z = 0;
-	int contadorzorrilloC = 0;
-	do {
-	I = Math.random() * getfilas();
-	Z = Math.random() * getcolumnas();
-	int i = (int) I;
-	int z = (int) Z;
-	Caguano caguano = new Caguano(i,z);
-	listaCarros.add(caguano);
-	{
-	if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && i > 0 && i < 15 && z > 0
-	&& z < 16) {
-	mensajeClik[i][z] = ("C");
-	mensajeClik[i + 1][z] = ("C");
-	contadorzorrilloC++;
-	}
-	}
-	} while (contadorzorrilloC < getzorrilloC());
+	public int gettrupallaT() {
+		return trupallaT;
 	}
 
-	public void setZorriloC(int sZorrilloC) {
-	zorrilloC = sZorrilloC;
+	public void instalarguanacoC() {
+		double I = 0;
+		double Z = 0;
+		do {
+			I = Math.random() * getfilas();
+			Z = Math.random() * getcolumnas();
+			int i = (int) I;
+			int z = (int) Z;
+			
+			{
+				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
+						&& i < 15 && z > 0 && z < 16) {
+					mensajeClik[i][z] = ("C");
+					mensajeClik[i + 1][z] = ("C");
+					instalarguanacoC++;
+					Caguano caguano = new Caguano(i, z);
+					listaCarros.add(caguano);
+				}
+			}
+		} while (instalarguanacoC < getguanacoC());
 	}
 
-	public int getzorrilloC() {
-	return zorrilloC;
+	public void setZorriloC(int guanacoC) {
+		guanacoC = guanacoC;
+	}
+
+	public int getguanacoC() {
+		return guanacoC;
 	}
 
 	public void instalarCromiK() {
-	double I = 0;
-	double Z = 0;
-	int contadorkromiK = 0;
-	do {
-	I = Math.random() * getfilas();
-	Z = Math.random() * getcolumnas();
-	int i = (int) I;
-	int z = (int) Z;
-	Kromi kromi = new Kromi(i,z);
-	listaCarros.add(kromi);
-	{
-	if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
-	&& i < 16 && z > 0 && z < 14) {
-	mensajeClik[i][z] = ("K");
-	mensajeClik[i][z + 1] = ("K");
-	mensajeClik[i][z + 2] = ("K");
-	contadorkromiK++;
-	}
-	}
-	} while (contadorkromiK < getkromiK());
-	}
-
-	public void setKromiK(int sKromiK) {
-	kromiK = sKromiK;
+		double I = 0;
+		double Z = 0;
+		do {
+			I = Math.random() * getfilas();
+			Z = Math.random() * getcolumnas();
+			int i = (int) I;
+			int z = (int) Z;
+			
+			{
+				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
+						&& i < 16 && z > 0 && z < 14) {
+					mensajeClik[i][z] = ("K");
+					mensajeClik[i][z + 1] = ("K");
+					mensajeClik[i][z + 2] = ("K");
+					instalarMicroK++;
+					Kromi kromi = new Kromi(i, z);
+					listaCarros.add(kromi);
+				}
+			}
+		} while (instalarMicroK < getMicroK());
 	}
 
-	public int getkromiK() {
-	return kromiK;
+	public void setMicroK(int sMicroK) {
+		MicroK = sMicroK;
+	}
+
+	public int getMicroK() {
+		return MicroK;
 	}
 
 	public void setfilas(int sfilas) {
-	filas = sfilas;
+		filas = sfilas;
 	}
 
 	public int getfilas() {
-	return filas;
+		return filas;
 	}
 
 	public void setcolumnas(int scolumnas) {
-	columnas = scolumnas;
+		columnas = scolumnas;
 	}
 
 	public int getcolumnas() {
-	return columnas;
+		return columnas;
 	}
 
 	public void setmensaje(String smensaje) {
-	mensaje = smensaje;
+		mensaje = smensaje;
 	}
 
 	public String getmensaje() {
-	return mensaje;
+		return mensaje;
 	}
 
 	public void settotal(int stotal) {
-	total = stotal;
+		total = stotal;
 	}
 
 	public int gettotal() {
-	return total;
+		return total;
 	}
 
 	// —- Escribo las coordenada en los laterales.
 	public void cordenadametroCuadrado() {
-	for (int i = 0; i < filas; i++) {
-	for (int z = 0; z < columnas; z++) {
-
-	if (z == 0 && i > 0 && i < columnas - 1) {
-	metroCuadrado[i][z].setText("" + i);
-	}
-	if (z == filas - 1 && i > 0 && i < columnas - 1) {
-	metroCuadrado[i][z].setText("" + i);
-	}
-	if (i == 0 && z > 0 && z < filas - 1) {
-	metroCuadrado[i][z].setText("" + z);
-	}
-	if (i == columnas - 1 && z > 0 && z < filas - 1) {
-	metroCuadrado[i][z].setText("" + z);
-	}
-	}
-	}
+		for (int i = 0; i < filas; i++) {
+			for (int z = 0; z < columnas; z++) {
+				if (z == 0 && i > 0 && i < columnas - 1) {
+					metroCuadrado[i][z].setText("" + i);
+				}
+				if (z == filas - 1 && i > 0 && i < columnas - 1) {
+					metroCuadrado[i][z].setText("" + i);
+				}
+				if (i == 0 && z > 0 && z < filas - 1) {
+					metroCuadrado[i][z].setText("" + z);
+				}
+				if (i == columnas - 1 && z > 0 && z < filas - 1) {
+					metroCuadrado[i][z].setText("" + z);
+				}
+			}
+		}
 	}
 
 	// —- Muestra el texto en todos los metroCuadrado cuando hay paco,zorrillo o
 	// micro.
-
 	public void textometroCuadrado() {
-	for (int i = 1; i < filas - 1; i++) {
-	for (int z = 1; z < columnas - 1; z++) {
-	metroCuadrado[i][z].setText(mensajeClik[i][z]);
-	metroCuadrado[i][z].setEnabled(false);
-	jButton1.setText("¿Reiniciar?");
+		if (activerecurso == 0) {
+			for (int i = 1; i < filas - 1; i++) {
+				for (int z = 1; z < columnas - 1; z++) {
+					metroCuadrado[i][z].setText(mensajeClik[i][z]);
+					metroCuadrado[i][z].setEnabled(false);
+					boton1.setText("¿Reiniciar?");
+				}
+			}
+			activerecurso = 1;
+		}
 	}
-	}
-	}
-
-	
 }
