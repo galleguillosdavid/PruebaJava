@@ -1,15 +1,28 @@
 package tablero.main;
-
-import Carro.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import Carro.Caguano;
+import Carro.Carro;
+import Carro.Huevo;
+import Carro.Kromi;
+import Carro.Trupalla;
 
 public class Tablero extends JFrame {
 	// Creacion de atributos Carros
 
-	private final static long serialVersionUID = (long) 1.7;
+	private final static long serialVersionUID = (long) 2.0;
 	private JPanel jPanel1 = new JPanel();
 	private JButton boton1 = new JButton();
 	private JButton boton2 = new JButton();
@@ -25,15 +38,19 @@ public class Tablero extends JFrame {
 	private int trupallaT = 10;
 	private int guanacoC = 5;
 	private int MicroK = 3;
+	private int mu = 0;
+	private int ru = 0;
 	private int instalartrupallasT = 0;
 	private int instalarguanacoC = 0;
 	private int instalarMicroK = 0;
-	private int contadorJuego = 2;
+	private int contadorJuego = 1;
 	private int contadorhuevo = 0;
 	private int contadorguanacoC = 0;
 	private int contadorpatrullasT = 0;
 	private int contadorMicroK = 0;
 	private int activerecurso = 0;
+	private int desbloqueados = 0;
+	private int contadormultiplicador = 0;
 	ArrayList<Carro> listaCarros = new ArrayList<Carro>(18);// listas
 	ArrayList<Huevo> listaLanzaHuevo = new ArrayList<Huevo>();// listas
 	public JButton metroCuadrado[][] = new JButton[filas][columnas];// tablero
@@ -55,7 +72,7 @@ public class Tablero extends JFrame {
 
 	// Suma y mensajes variados
 
-	public void mensajeSuperior(int i, int z) { 
+	public void mensajeSuperior(int i, int z) {
 		metroCuadrado[i][z].setText(mensajeClik[i][z]);
 		metroCuadrado[i][z].setEnabled(false);
 
@@ -71,21 +88,21 @@ public class Tablero extends JFrame {
 				boton2.setText("1 Punto");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
 				contadorpatrullasT++;
-				
+
 			}
 			if (metroCuadrado[i][z].getText() == "C") { // le da a caguano
 				total = total + 2; // puntaje
 				mensaje = "Una parte de un Caguano, ¡Sigue asi!"; // mensaje
 				boton2.setText("2 Puntos");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
-				
+
 				if (metroCuadrado[i + 1][z].getText() == "C" || metroCuadrado[i - 1][z].getText() == "C") {
 					mensaje = "Caguano derrotado 2 puntos, mas 7 extra.";
 					total = total + 7;
 					boton2.setText("7 Puntos");
 					this.setTitle(mensaje + " Total " + total + " Puntos");
 					contadorguanacoC++;
-					
+
 				}
 			}
 
@@ -94,28 +111,42 @@ public class Tablero extends JFrame {
 				total = total + 3;
 				boton2.setText("3 Puntos");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
-					if (metroCuadrado[i][z + 2].getText() == "K" || metroCuadrado[i][z - 2].getText() == "K") {
-					mensaje = "Kromi derrotada 3 puntos, mas 10 extra.";
-					total = total + 10;
-					boton2.setText("10 Puntos");
-					this.setTitle(mensaje + " Total " + total + " Puntos");
-					contadorMicroK++;
-					
+				if (metroCuadrado[i][z + 1].getText() == "K" && metroCuadrado[i][z - 1].getText() == "K"
+						|| metroCuadrado[i][z + 2].getText() == "K" || metroCuadrado[i][z - 2].getText() == "K") {
+					mensajekromi();
 				}
-			}
 
-			if ( contadorMicroK > 2 && contadorguanacoC > 4  && contadorpatrullasT > 9 ) {
-				finalGame();
+//				if (z=14 && metroCuadrado[i][z - 1].getText() == "K" && metroCuadrado[i][z - 2].getText() == "K"){mensajekromi();};
+//				if (z>13 && z>3)
+//				if (z=2
+//				if (z=1
+//				if (
+
 			}
 		}
+
+		if (contadorMicroK > 2 && contadorguanacoC > 4 && contadorpatrullasT > 8) {
+			finalGame();
+		}
+	}
+
+	public void mensajekromi() {
+		mensaje = "Kromi derrotada 3 puntos, mas 10 extra.";
+		total = total + 10;
+		boton2.setText("10 Puntos");
+		this.setTitle(mensaje + " Total " + total + " Puntos");
+		contadorMicroK++;
 	}
 
 	// Fin ganar
 	public void finalGame() {
-		if ( contadorMicroK > 2 && contadorguanacoC > 4  && contadorpatrullasT > 9 ) {
+
 		this.setTitle("Eres nombrado ''Awake Emerito'' ");
-		boton1.setText("Abatiste a los malhechores , Felicitaciones");
-	}
+		boton1.setText("El Pueblo");
+		boton2.setText("Se levantó");
+		boton3.setText("Que huevos!!!");
+		JOptionPane.showConfirmDialog(boton1, "Felicidades has ganado, ¿Reiniciar?");
+
 	}
 
 	public void LanzarHuevo() {
@@ -130,8 +161,8 @@ public class Tablero extends JFrame {
 
 		jPanel1.setBounds(new Rectangle(0, 0, 527, 580)); // bordes
 		jPanel1.setLayout(null); // sin layout
-		
-		//configuracion boton 1
+
+		// configuracion boton 1
 		boton1.setText("Reinicio");
 		boton1.setBounds(new Rectangle(00, 510, 170, 30));
 		boton1.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -162,7 +193,7 @@ public class Tablero extends JFrame {
 		boton6.setHorizontalTextPosition(SwingConstants.CENTER);
 
 		// configuracion boton 7
-		boton7.setText("Acerda de");
+		boton7.setText("lanzar 10");
 		boton7.setBounds(new Rectangle(510, 510, 170, 30));
 		boton7.setHorizontalTextPosition(SwingConstants.CENTER);
 
@@ -172,19 +203,26 @@ public class Tablero extends JFrame {
 				boton1_actionPerformed(e);
 			}
 		});
-//lector de acciones boton2
+		// lector de acciones boton2
 		boton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent f) {
 				boton2_actionPerformed(f);
 			}
 		});
-//lector de acciones boton3
+		// lector de acciones boton3
 		boton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent g) {
 				boton3_actionPerformed(g);
 			}
 		});
-//agregamos los botones y carros al panel
+		// lector de acciones boton7
+		boton7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent k) {
+				boton7_actionPerformed(k);
+			}
+		});
+		
+		// agregamos los botones y carros al panel
 		getContentPane().add(boton1, null);
 		getContentPane().add(boton2, null);
 		getContentPane().add(boton3, null);
@@ -198,7 +236,7 @@ public class Tablero extends JFrame {
 		instalarCromiK();
 		instalarguanacoC();
 		setVisible(true);
-		cordenadametroCuadrado(); 
+		cordenadametroCuadrado();
 	}
 
 //respuesta al apretar boton1 = reinicio Juego
@@ -214,13 +252,13 @@ public class Tablero extends JFrame {
 		instalarguanacoC();
 		instalarCromiK();
 		this.setTitle("Angry Eggs");
-		boton1.setText("Batalla " + (contadorJuego++));
 		this.setTitle("... A la carga!!!");
 		activerecurso = 1;
 	}
 
 //respuesta al apretar boton2
 	private void boton2_actionPerformed(ActionEvent f) {
+
 	}
 
 //respuesta al apretar boton3
@@ -234,9 +272,31 @@ public class Tablero extends JFrame {
 		boton2.setText(" " + total + " Puntos");
 		this.setTitle("Si te caes 1 vez, te levantas 2 !!!");
 	}
-	
+	// respuesta al apretar boton7
+
+	private void boton7_actionPerformed(ActionEvent k) {
+		if (desbloqueados > 215) {
+			boton7.setText("Sigue de a 1");
+		} else {
+			do {
+				mu = (int) (Math.random() * 15 + 1);
+				ru = (int) (Math.random() * 15 + 1);
+				if (metroCuadrado[mu][ru].isEnabled() == true) {
+					mensajeSuperior(mu, ru);
+					mensajesbatalla();
+					desbloqueados++;
+					contadormultiplicador++;
+				}
+
+			} while (contadormultiplicador < 10);
+			contadormultiplicador = 0;
+		}
+	}
+
+	// —– Cada Evento llama al método pulsarBoton.
+
 	// creamos los 289 de botones de 30 por 20px, en 17 filas x 17columnas
-	public void cargarTablero() { 
+	public void cargarTablero() {
 		for (int i = 0; i < filas; i++) {
 			for (int z = 0; z < columnas; z++) {
 				mensajeClik[i][z] = "H";
@@ -244,7 +304,6 @@ public class Tablero extends JFrame {
 				jPanel1.add(metroCuadrado[i][z]);
 				metroCuadrado[i][z].setBounds(i * 30, z * 30, 30, 30);// los botones se desplazan al crearse
 				metroCuadrado[i][z].setMargin(new Insets(0, 0, 0, 0));
-
 				// escuchar click, solo en los botones interiores de 15 por 15
 				metroCuadrado[i][z].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent escucharClik) {
@@ -252,21 +311,17 @@ public class Tablero extends JFrame {
 							for (int z = 1; z < columnas - 1; z++) {
 								if (escucharClik.getSource() == metroCuadrado[i][z]) {
 									mensajeSuperior(i, z);
-									contadorhuevo++;
-									boton4.setText("<html><center> TOTAL PUNTOS: <br><html>" + total + "<html><center><br>< Huevos lanzados:<br> <html>" + contadorhuevo );
-									boton5.setText(
-											"<html><center>CARROS DESTRUIDOS <br> Trupallas derrotadas: <br><html>" + contadorpatrullasT +
-											"<html><center><br> Caguanos derrotados: <br><html>" +  contadorguanacoC +
-											"<html><center><br> Kromis derrotadas: <br><html>" +  contadorMicroK );
-
-									
-
+									mensajesbatalla();
+									desbloqueados++;
 									// —– Cada Evento llama al método pulsarBoton.
+
 								}
 							}
 						}
 					}
+
 				});
+
 			}
 		}
 	}
@@ -302,6 +357,15 @@ public class Tablero extends JFrame {
 	public void setListaLanzaHuevo(ArrayList<Huevo> listaLanzaHuevo) {
 		this.listaLanzaHuevo = listaLanzaHuevo;
 	}
+
+	public void mensajesbatalla() {
+		contadorhuevo++;
+		boton4.setText("<html><center>BATALLA <br><html>" + (contadorJuego) + "<html><center> TOTAL PUNTOS: <br><html>"
+				+ total + "<html><center><br>< Huevos lanzados:<br> <html>" + contadorhuevo);
+		boton5.setText("<html><center>CARROS DESTRUIDOS <br> Trupallas derrotadas: <br><html>" + contadorpatrullasT
+				+ "<html><center><br> Caguanos derrotados: <br><html>" + contadorguanacoC
+				+ "<html><center><br> Kromis derrotadas: <br><html>" + contadorMicroK);
+	}
 	// —- Coloca los carros al azar desde su clase principal.
 
 	public void instalartrupallaT() {
@@ -312,7 +376,7 @@ public class Tablero extends JFrame {
 			Z = Math.random() * getcolumnas();
 			int i = (int) I;
 			int z = (int) Z;
-			
+
 			{
 				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
 						&& i < 16 && z > 0 && z < 16) {
@@ -341,7 +405,7 @@ public class Tablero extends JFrame {
 			Z = Math.random() * getcolumnas();
 			int i = (int) I;
 			int z = (int) Z;
-			
+
 			{
 				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
 						&& i < 15 && z > 0 && z < 16) {
@@ -371,7 +435,7 @@ public class Tablero extends JFrame {
 			Z = Math.random() * getcolumnas();
 			int i = (int) I;
 			int z = (int) Z;
-			
+
 			{
 				if (mensajeClik[i][z] != ("T") && mensajeClik[i][z] != ("C") && mensajeClik[i][z] != ("K") && i > 0
 						&& i < 16 && z > 0 && z < 14) {
@@ -455,6 +519,7 @@ public class Tablero extends JFrame {
 					metroCuadrado[i][z].setText(mensajeClik[i][z]);
 					metroCuadrado[i][z].setEnabled(false);
 					boton1.setText("¿Reiniciar?");
+					contadorJuego++;
 				}
 			}
 			activerecurso = 1;
