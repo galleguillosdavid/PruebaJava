@@ -5,7 +5,8 @@ public class Carro {
 	String fecha;
 	char[] posicionX;
 	char[] posicionY;
-	int x,y;
+	int x, y;
+
 	public Carro(int cantidadocupantes, String fecha, char[] posicionX, char[] posicionY) {
 		super();
 		this.cantidadocupantes = cantidadocupantes;
@@ -20,6 +21,7 @@ public class Carro {
 		this.y = y;
 	}
 
-	public Carro(char[] posicionX, char[] posicionY) {}
+	public Carro(char[] posicionX, char[] posicionY) {
+	}
 
 }

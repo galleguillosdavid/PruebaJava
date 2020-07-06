@@ -7,7 +7,7 @@ public class TableroExe {
 
 	public static void main(String[] args) {
 		Tablero tab = new Tablero();
-		
+
 	}
 
 }

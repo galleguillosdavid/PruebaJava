@@ -3,18 +3,19 @@ package Carro;
 import java.util.Arrays;
 
 public class Kromi extends Carro {
-private final static String anio="1999";
-private final static String marca = "Subus";
-char[] posicionX;
-char[] posicionY;
-int x,y;
+	private final static String anio = "1999";
+	private final static String marca = "Subus";
+	char[] posicionX;
+	char[] posicionY;
+	int x, y;
+
 	public Kromi(int cantidadocupantes, String fecha, char[] posicionX, char[] posicionY) {
 		super(cantidadocupantes, fecha, posicionX, posicionY);
 	}
 
 	public Kromi(int x, int y) {
-		super(x,y);
-	
+		super(x, y);
+
 	}
 
 	public char[] getPosicionX() {
@@ -49,5 +50,5 @@ int x,y;
 	public String toString() {
 		return "Kromi [posicionX=" + Arrays.toString(posicionX) + ", posicionY=" + Arrays.toString(posicionY) + "]";
 	}
-	
+
 }
