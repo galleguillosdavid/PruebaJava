@@ -1,12 +1,13 @@
 package tablero.main;
+
 import java.awt.Dimension;
+
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,7 +23,8 @@ import Carro.Trupalla;
 public class Tablero extends JFrame {
 	// Creacion de atributos Carros
 
-	private final static long serialVersionUID = (long) 2.0;
+	private final static long serialVersionUID = (long) 2.1;
+
 	private JPanel jPanel1 = new JPanel();
 	private JButton boton1 = new JButton();
 	private JButton boton2 = new JButton();
@@ -80,6 +82,8 @@ public class Tablero extends JFrame {
 			metroCuadrado[i][z].setEnabled(false);
 			mensaje = "Casi. Intentalo denuevo";
 			this.setTitle(mensaje + " Total " + total + " Puntos");
+			boton6.setText("<html><center>HUEVO <br><html>" + (contadorJuego) + "<html><center> VELOCIDAD: <br><html>"
+					+ total + "<html><center><br>< AMENAZA<br> <html>" + contadorhuevo);
 		} else {
 
 			if (metroCuadrado[i][z].getText() == "T") { // le da a trupalla
@@ -88,13 +92,18 @@ public class Tablero extends JFrame {
 				boton2.setText("1 Punto");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
 				contadorpatrullasT++;
-
+				boton6.setText(
+						"<html><center>TRUPALLA <br><html>" + (contadorJuego) + "<html><center> ARMADURA <br><html>"
+								+ total + "<html><center><br>< PILOTO<br> <html>" + contadorhuevo);
 			}
 			if (metroCuadrado[i][z].getText() == "C") { // le da a caguano
 				total = total + 2; // puntaje
 				mensaje = "Una parte de un Caguano, ¡Sigue asi!"; // mensaje
 				boton2.setText("2 Puntos");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
+				boton6.setText(
+						"<html><center>CAGUANO <br><html>" + (contadorJuego) + "<html><center> ALCANCE: <br><html>"
+								+ total + "<html><center><br>< CONFETI:<br> <html>" + contadorhuevo);
 
 				if (metroCuadrado[i + 1][z].getText() == "C" || metroCuadrado[i - 1][z].getText() == "C") {
 					mensaje = "Caguano derrotado 2 puntos, mas 7 extra.";
@@ -111,6 +120,9 @@ public class Tablero extends JFrame {
 				total = total + 3;
 				boton2.setText("3 Puntos");
 				this.setTitle(mensaje + " Total " + total + " Puntos");
+				boton6.setText(
+						"<html><center>KROMI <br><html>" + (contadorJuego) + "<html><center> FABRICACION: <br><html>"
+								+ total + "<html><center><br>< MARCA:<br> <html>" + contadorhuevo);
 				if (metroCuadrado[i][z + 1].getText() == "K" && metroCuadrado[i][z - 1].getText() == "K"
 						|| metroCuadrado[i][z + 2].getText() == "K" || metroCuadrado[i][z - 2].getText() == "K") {
 					mensajekromi();
@@ -156,7 +168,7 @@ public class Tablero extends JFrame {
 	private void MostrarMatriz() throws Exception { // inicio del panel
 
 		this.getContentPane().setLayout(null); // traemos y seteamos el panel
-		this.setSize(new Dimension(696, 579)); // tamanio
+		this.setSize(new Dimension(696, 579)); // tamaño
 		this.setTitle("Angry Eggs"); // titulo del juego
 
 		jPanel1.setBounds(new Rectangle(0, 0, 527, 580)); // bordes
@@ -188,7 +200,7 @@ public class Tablero extends JFrame {
 		boton5.setHorizontalTextPosition(SwingConstants.CENTER);
 
 		// configuracion boton 6
-		boton6.setText("Caguanos");
+		boton6.setText("Info");
 		boton6.setBounds(new Rectangle(510, 340, 170, 170));
 		boton6.setHorizontalTextPosition(SwingConstants.CENTER);
 
@@ -221,7 +233,7 @@ public class Tablero extends JFrame {
 				boton7_actionPerformed(k);
 			}
 		});
-		
+
 		// agregamos los botones y carros al panel
 		getContentPane().add(boton1, null);
 		getContentPane().add(boton2, null);
@@ -288,7 +300,7 @@ public class Tablero extends JFrame {
 					contadormultiplicador++;
 				}
 
-			} while (contadormultiplicador < 10);
+			} while (contadormultiplicador < 250);
 			contadormultiplicador = 0;
 		}
 	}

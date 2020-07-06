@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>huevo2.png</name>
+			<type>1</type>
+			<location>C:/Users/David/Desktop/huevo2.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>
